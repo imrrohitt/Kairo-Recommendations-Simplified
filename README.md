@@ -19,6 +19,8 @@
 
 Kairo is a practical recommendation framework for learning, prototyping, and shipping the core pieces of modern recommender architecture.
 
+It is evolving into a Recommendation Development Platform: a guided operating system where backend engineers can connect data, create datasets, build features, train ranking models, evaluate quality, deploy APIs, and learn what each step means.
+
 It focuses on the important product and ML loop:
 
 ```text
@@ -63,6 +65,20 @@ XGBoost Ranker or Fallback Scorer
   v
 Top-K Recommendations
 ```
+
+## Studios
+
+Kairo is organized into guided studios:
+
+- Dataset Studio: connect users, items, and interactions, then create versioned training datasets.
+- Feature Studio: build user, item, session, context, and affinity features with explanations.
+- Model Studio: train ranking models using friendly strategies like Fast Training, Balanced, and Best Accuracy.
+- Evaluation Studio: compare models with recommendation metrics such as Precision@K, Recall@K, NDCG@K, and MAP.
+- Deployment Studio: create serving versions and expose a stable `POST /recommend` API.
+- Learning Center: explain recommendation concepts inside the workflow.
+- Monitoring: track serving health, model readiness, feature freshness, and future drift checks.
+
+Every project action creates a new version. Kairo does not overwrite datasets, feature sets, experiments, model versions, or deployments.
 
 ## Project Structure
 
@@ -145,6 +161,23 @@ DELETE /cart/{user_id}/{product_id}
 
 ```http
 POST /recommend
+```
+
+Platform endpoints:
+
+```http
+GET  /platform/overview
+POST /platform/projects/{project_id}/versions/{kind}
+```
+
+Supported version kinds:
+
+```text
+dataset
+feature_set
+experiment
+model
+deployment
 ```
 
 Example:

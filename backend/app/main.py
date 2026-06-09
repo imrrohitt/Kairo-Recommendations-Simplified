@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from .config import get_settings
 from .database import SessionLocal, create_db, get_db
 from .models import CartItem, Product, User
+from .platform import VersionKind, create_next_version, platform_overview, seed_platform
 from .recommender import RecommendationService, ensure_user_exists
 from .schemas import CartItemOut, CartUpdateRequest, ProductOut, RecommendationOut, RecommendRequest, RecommendResponse
 from .seed import seed_database
@@ -28,6 +29,7 @@ def startup() -> None:
     create_db()
     with SessionLocal() as db:
         seed_database(db)
+        seed_platform(db)
 
 
 @app.get("/health")
@@ -44,6 +46,19 @@ def list_users(db: Session = Depends(get_db)) -> list[dict[str, object]]:
 @app.get("/products", response_model=list[ProductOut])
 def list_products(db: Session = Depends(get_db)) -> list[Product]:
     return db.execute(select(Product).order_by(Product.category, Product.name)).scalars().all()
+
+
+@app.get("/platform/overview")
+def get_platform_overview(db: Session = Depends(get_db)) -> dict[str, object]:
+    return platform_overview(db)
+
+
+@app.post("/platform/projects/{project_id}/versions/{kind}")
+def create_platform_version(project_id: int, kind: VersionKind, db: Session = Depends(get_db)) -> dict[str, object]:
+    try:
+        return create_next_version(db, project_id, kind)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @app.get("/cart/{user_id}", response_model=list[CartItemOut])

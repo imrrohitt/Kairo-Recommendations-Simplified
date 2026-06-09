@@ -1,0 +1,20 @@
+<svg width="960" height="360" viewBox="0 0 960 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Kairo logo</title>
+  <desc id="desc">Kairo, an open-source recommendation framework logo.</desc>
+  <rect width="960" height="360" fill="#ffffff"/>
+  <g transform="translate(118 82)">
+    <path d="M46 178V26h44v58l56-58h55l-69 70 76 82h-58l-60-67v67H46Z" fill="#063C63"/>
+    <path d="M87 181c36-30 53-59 51-89-1-17-8-27-20-40 27 3 49 19 61 42 18 34 7 75-31 121-17 20-34 36-49 47-14-20-19-40-12-81Z" fill="#006B96"/>
+    <path d="M136 118c33-34 62-50 88-49 22 1 42 12 60 34l-28 28c-12-11-24-16-37-14-15 2-33 13-53 34l-30-33Z" fill="#0FB7B5"/>
+    <path d="M197 81c31-21 58-35 81-42l9 40c-20 6-41 17-64 34l-26-32Z" fill="#F4A33A"/>
+    <path d="M270 28l49-11-11 50-12-14-57 58-18-18 58-57-9-8Z" fill="#F4A33A"/>
+    <path d="M222 112l34 34 36-36 19 19-36 36 32 32-30 30-32-32-52 52-34-34 52-52-34-34 45-45Z" fill="#063C63"/>
+    <circle cx="179" cy="101" r="10" fill="#0FB7B5"/>
+    <circle cx="277" cy="171" r="10" fill="#F4A33A"/>
+  </g>
+  <g transform="translate(404 118)">
+    <text x="0" y="68" font-family="Inter, Arial, sans-serif" font-size="78" font-weight="800" letter-spacing="8" fill="#073D66">KAIRO</text>
+    <text x="2" y="112" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" fill="#2C3944">The Open-Source</text>
+    <text x="2" y="144" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" fill="#2C3944">Recommendation Framework</text>
+  </g>
+</svg>
