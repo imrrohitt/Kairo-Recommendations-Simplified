@@ -5,96 +5,138 @@
 <h1 align="center">Kairo</h1>
 
 <p align="center">
-  Build recommendation systems, not recommendation pipelines.
+  <strong>Build recommendation systems, not recommendation pipelines.</strong>
 </p>
 
 <p align="center">
-  An open-source framework for candidate generation, feature engineering, ranking, evaluation, and serving.
-  Designed for e-commerce, ATS, marketplaces, content platforms, and modern AI applications.
+  An open-source recommendation development platform for candidate generation,
+  feature engineering, ranking, evaluation, deployment, and learning.
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a>
+  ·
+  <a href="#platform-studios">Studios</a>
+  ·
+  <a href="#api">API</a>
+  ·
+  <a href="#roadmap">Roadmap</a>
+</p>
+
+<p align="center">
+  <img alt="Backend" src="https://img.shields.io/badge/backend-FastAPI-009688" />
+  <img alt="Frontend" src="https://img.shields.io/badge/frontend-React-149eca" />
+  <img alt="ML" src="https://img.shields.io/badge/ranking-XGBoost-f28c28" />
+  <img alt="Database" src="https://img.shields.io/badge/database-SQLAlchemy%20%2B%20SQLite-334155" />
+  <img alt="Status" src="https://img.shields.io/badge/status-active%20prototype-0f766e" />
 </p>
 
 ---
 
-## What Is Kairo?
+## Overview
 
-Kairo is a practical recommendation framework for learning, prototyping, and shipping the core pieces of modern recommender architecture.
+Kairo is a recommendation development platform designed for engineers who want to build, understand, and ship recommendation systems without getting buried in infrastructure too early.
 
-It is evolving into a Recommendation Development Platform: a guided operating system where backend engineers can connect data, create datasets, build features, train ranking models, evaluate quality, deploy APIs, and learn what each step means.
-
-It focuses on the important product and ML loop:
+It provides a guided workflow for the core recommendation lifecycle:
 
 ```text
-User Context
-  -> Candidate Generation
-  -> Feature Engineering
-  -> Ranking
-  -> Evaluation
-  -> Serving
+Connect Data
+  -> Create Dataset
+  -> Build Features
+  -> Train Ranker
+  -> Evaluate Quality
+  -> Deploy API
+  -> Monitor And Learn
 ```
 
-The first version is intentionally lightweight. It avoids Kafka, Airflow, Spark, Kubernetes, vector databases, and other infrastructure until they are truly needed. The goal is to make recommendation logic clear, runnable, and easy to extend.
+The current version is intentionally local-first and lightweight. It gives you a working recommender architecture with FastAPI, SQLAlchemy, React, product affinity, feature generation, XGBoost ranking, and versioned platform state. Kafka, Airflow, Spark, Kubernetes, and vector databases can come later, when the recommendation system actually needs them.
 
-## Why Kairo?
+## Why Kairo
 
-Most recommendation projects become infrastructure projects too early. Kairo keeps the system centered on the recommender itself:
+Most recommendation projects turn into pipeline projects before the recommendation logic is clear. Kairo keeps the focus on the parts that matter first:
 
-- Candidate generation from product affinity and purchase history
-- Feature engineering for users, carts, products, and candidate relationships
-- Ranking with XGBoost or a deterministic fallback scorer
-- Serving through a FastAPI recommendation API
-- A React interface for testing recommendations interactively
-- Local-first development with SQLite, with optional Postgres and Redis support
+- Generate candidates from product affinity and historical interactions.
+- Build user, item, cart, context, and affinity features.
+- Rank candidates with XGBoost or a deterministic fallback scorer.
+- Evaluate ranking quality with recommendation-specific metrics.
+- Serve recommendations through a clean API.
+- Track datasets, feature sets, experiments, models, and deployments as versions.
+- Teach the user what is happening at each step.
 
-## Current Architecture
+Kairo is designed for e-commerce, ATS, job boards, marketplaces, content platforms, learning platforms, SaaS products, and modern AI applications.
+
+## Architecture
 
 ```text
-Client
+Frontend Platform UI
   |
   v
-FastAPI Recommendation API
+FastAPI Backend
+  |
+  +--> Dataset Studio
+  +--> Feature Studio
+  +--> Model Studio
+  +--> Evaluation Studio
+  +--> Deployment Studio
   |
   v
-Candidate Generation
+Recommendation Service
   |
-  v
-Feature Builder
-  |
-  v
-XGBoost Ranker or Fallback Scorer
+  +--> Candidate Generation
+  +--> Feature Builder
+  +--> XGBoost Ranker or Fallback Scorer
   |
   v
 Top-K Recommendations
 ```
 
-## Studios
+## Platform Studios
 
-Kairo is organized into guided studios:
+Kairo is organized around guided studios. Each studio is both a product workflow and a learning surface.
 
-- Dataset Studio: connect users, items, and interactions, then create versioned training datasets.
-- Feature Studio: build user, item, session, context, and affinity features with explanations.
-- Model Studio: train ranking models using friendly strategies like Fast Training, Balanced, and Best Accuracy.
-- Evaluation Studio: compare models with recommendation metrics such as Precision@K, Recall@K, NDCG@K, and MAP.
-- Deployment Studio: create serving versions and expose a stable `POST /recommend` API.
-- Learning Center: explain recommendation concepts inside the workflow.
-- Monitoring: track serving health, model readiness, feature freshness, and future drift checks.
+| Studio | Purpose |
+| --- | --- |
+| Dataset Studio | Connect users, items, and interactions. Detect important columns and create training datasets. |
+| Feature Studio | Build user, item, session, context, and affinity features with plain-language explanations. |
+| Model Studio | Train ranking models using simple strategies such as Fast Training, Balanced, and Best Accuracy. |
+| Evaluation Studio | Compare ranking quality using Precision@K, Recall@K, NDCG@K, and MAP. |
+| Deployment Studio | Create serving versions and expose recommendations through `POST /recommend`. |
+| Learning Center | Explain recommendation concepts directly inside the workflow. |
+| Monitoring | Track serving health, feature freshness, model readiness, and future drift signals. |
 
-Every project action creates a new version. Kairo does not overwrite datasets, feature sets, experiments, model versions, or deployments.
+Every major action creates a new version. Kairo does not overwrite datasets, feature sets, experiments, model versions, or deployments.
+
+```text
+Project
+├── Dataset Version 1
+├── Dataset Version 2
+├── Feature Set 1
+├── Experiment 1
+├── Model Version 1
+└── Deployment Version 1
+```
 
 ## Project Structure
 
 ```text
 kairo/
 ├── assets/        Logo and project assets
-├── backend/       FastAPI app, SQLAlchemy models, recommender service
-├── training/      Offline model training
+├── backend/       FastAPI app, SQLAlchemy models, platform state, recommender service
+├── training/      Offline XGBoost training workflow
 ├── ml_models/     Saved model artifacts
-├── data/          SQLite DB and generated datasets
+├── data/          SQLite database and generated datasets
 ├── notebooks/     Experiments and analysis
 ├── scripts/       Utility scripts
-└── frontend/      React demo application
+└── frontend/      React platform UI
 ```
 
 ## Quick Start
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 20.19+ or 22.12+
+- npm
 
 ### 1. Start The Backend
 
@@ -107,7 +149,7 @@ python scripts/seed_db.py
 uvicorn backend.app.main:app --reload
 ```
 
-The API runs at:
+The backend runs at:
 
 ```text
 http://localhost:8000
@@ -123,7 +165,7 @@ npm install
 npm run dev
 ```
 
-The app runs at:
+The frontend runs at:
 
 ```text
 http://localhost:5173
@@ -131,46 +173,21 @@ http://localhost:5173
 
 ## API
 
-### Health
+### Platform
 
 ```http
-GET /health
+GET /platform/overview
 ```
 
-### Users
+Returns the active project, studio definitions, feature catalog, metric guide, version history, and serving example.
 
 ```http
-GET /users
-```
-
-### Products
-
-```http
-GET /products
-```
-
-### Cart
-
-```http
-GET /cart/{user_id}
-POST /cart
-DELETE /cart/{user_id}/{product_id}
-```
-
-### Recommendations
-
-```http
-POST /recommend
-```
-
-Platform endpoints:
-
-```http
-GET  /platform/overview
 POST /platform/projects/{project_id}/versions/{kind}
 ```
 
-Supported version kinds:
+Creates the next immutable version for a platform resource.
+
+Supported `kind` values:
 
 ```text
 dataset
@@ -180,20 +197,39 @@ model
 deployment
 ```
 
-Example:
+### Recommendation Serving
 
-```bash
-curl -X POST http://localhost:8000/recommend \
-  -H "Content-Type: application/json" \
-  -d '{"user_id": 1, "top_k": 10}'
+```http
+POST /recommend
 ```
 
-Response shape:
+Request:
 
 ```json
 {
   "user_id": 1,
-  "cart": [],
+  "top_k": 10
+}
+```
+
+Response:
+
+```json
+{
+  "user_id": 1,
+  "cart": [
+    {
+      "id": 1,
+      "quantity": 1,
+      "product": {
+        "id": 1,
+        "name": "Milk",
+        "category": "Dairy",
+        "brand": "Amul",
+        "price": 32.0
+      }
+    }
+  ],
   "recommendations": [
     {
       "product": {
@@ -210,9 +246,28 @@ Response shape:
 }
 ```
 
-## Train A Ranking Model
+Example:
 
-Kairo works immediately with a fallback scorer. To train an XGBoost model:
+```bash
+curl -X POST http://localhost:8000/recommend \
+  -H "Content-Type: application/json" \
+  -d '{"user_id": 1, "top_k": 10}'
+```
+
+### Catalog And Cart
+
+```http
+GET    /health
+GET    /users
+GET    /products
+GET    /cart/{user_id}
+POST   /cart
+DELETE /cart/{user_id}/{product_id}
+```
+
+## Training
+
+Kairo works immediately with a fallback scorer. To train and save an XGBoost model:
 
 ```bash
 cd kairo
@@ -220,21 +275,30 @@ source .venv/bin/activate
 python training/train.py
 ```
 
-This generates:
+Generated artifacts:
 
 ```text
 ml_models/xgb_classifier.pkl
 data/training_dataset.csv
 ```
 
-Restart the backend after training so the API loads the model.
+Restart the backend after training so the recommendation service loads the saved model.
 
 ## Configuration
 
-Kairo uses SQLite by default for local development. Copy `.env.example` to `.env` to override settings:
+Kairo uses SQLite by default. Copy `.env.example` to `.env` to customize runtime settings:
 
 ```bash
 cp .env.example .env
+```
+
+Default local configuration:
+
+```text
+DATABASE_URL=sqlite:///data/kairo.db
+REDIS_URL=
+MODEL_PATH=ml_models/xgb_classifier.pkl
+API_CORS_ORIGIN=http://localhost:5173
 ```
 
 Example Postgres and Redis configuration:
@@ -252,21 +316,42 @@ Install the Postgres driver if you switch databases:
 pip install psycopg[binary]
 ```
 
+## Current Capabilities
+
+- Local project state with versioned datasets, feature sets, experiments, models, and deployments.
+- Grocery recommendation demo data.
+- Product affinity candidate generation.
+- Feature builder for cart, user, product, and affinity signals.
+- XGBoost model training script.
+- Fallback scorer when no model artifact exists.
+- FastAPI recommendation API.
+- React platform interface with guided studios and learning content.
+
 ## Roadmap
 
-- V1: Product affinity and frequently bought together
-- V2: User, cart, product, and affinity feature engineering
-- V3: XGBoost ranking and offline evaluation
-- V4: Pluggable candidate generators and rankers
-- V5: Production-ready evaluation, monitoring, and serving patterns
+| Phase | Focus |
+| --- | --- |
+| V1 | Product affinity, feature builder, recommendation API, guided platform shell. |
+| V2 | CSV upload, schema detection, dataset creation wizard, richer negative sampling. |
+| V3 | Offline evaluation jobs, experiment comparison, model registry improvements. |
+| V4 | Pluggable candidate generators, LightGBM/CatBoost support, ranker configuration UI. |
+| V5 | Deployment environments, monitoring, drift checks, production serving patterns. |
 
-## Use Cases
+## Development
 
-- E-commerce product recommendations
-- ATS candidate-job matching
-- Marketplace discovery
-- Content feed ranking
-- AI application memory and context ranking
+Run backend checks:
+
+```bash
+python3 -m compileall backend training scripts
+python scripts/seed_db.py
+```
+
+Build the frontend:
+
+```bash
+cd frontend
+npm run build
+```
 
 ## License
 
